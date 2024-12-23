@@ -1,0 +1,12 @@
+servicekey.json
+node_modules
+node_modules
+.env
+firestore-data
+firebase-debug.log
+firestore-debug.log
+package-lock.json
+.firebaserc
+firebase.json
+ui-debug.log
+functions
