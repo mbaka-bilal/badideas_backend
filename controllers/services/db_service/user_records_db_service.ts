@@ -9,5 +9,14 @@ export abstract class UserRecordsDBService {
         id?: string | null
     }): Promise<UserProfileInterface | null>;
     abstract createUser(userDetails: any): Promise<UserProfileInterface>;
-    abstract updateProfile(data: { uid: string, email?: string | null, otp?: string | null, userName?: string | null, accessToken?: string | null, refreshToken?: string | null }): Promise<UserProfileInterface>;
+    abstract updateProfile(data: {
+        uid: string,
+        email?: string | null,
+        verified?: boolean | null,
+        otp?: string | null,
+        userName?: string | null,
+        accessToken?: string | null,
+        refreshToken?: string | null,
+        password?: string | null
+    }): Promise<UserProfileInterface>;
 }

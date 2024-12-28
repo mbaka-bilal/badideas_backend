@@ -27,7 +27,7 @@ class OtpServiceImpl {
                 const otp = helpers_1.default.generateOtp();
                 const user = yield this.dbService.fetchUser({ email: email });
                 if (user == null)
-                    throw new profile_exceptions_1.UserNotFound(constants_1.Constants.kUserNotFound);
+                    throw new profile_exceptions_1.UserNotFound();
                 yield this.dbService.updateProfile({ uid: user.uid, otp: otp });
                 return yield (0, send_mail_1.default)([email], "OTP", otp).then(() => {
                     return true;
@@ -44,19 +44,19 @@ class OtpServiceImpl {
             try {
                 const user = yield this.dbService.fetchUser({ email: email });
                 if (user == null)
-                    throw new profile_exceptions_1.UserNotFound(constants_1.Constants.kUserNotFound);
+                    throw new profile_exceptions_1.UserNotFound();
                 if (user.otp == null)
                     throw Error(constants_1.Constants.kServerError);
                 if (user.otp == otp) {
-                    const tokens = helpers_1.default.generateFreshTokens(user.userName, user.email);
+                    const tokens = helpers_1.default.generateFreshTokens(user.uid, user.userName, user.email);
                     return yield this.dbService.updateProfile({
                         uid: user.uid,
+                        verified: true,
                         accessToken: tokens[0],
                         refreshToken: tokens[1]
                     });
                 }
                 else {
-                    console.log("otp not equal");
                     throw Error("Incorrect otp");
                 }
             }

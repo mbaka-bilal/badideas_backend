@@ -21,7 +21,7 @@ export class OtpServiceImpl implements OtpService {
         try {
             const otp = Helpers.generateOtp();
             const user = await this.dbService.fetchUser({ email: email });
-            if (user == null) throw new UserNotFound(Constants.kUserNotFound)
+            if (user == null) throw new UserNotFound()
 
             await this.dbService.updateProfile({ uid: user.uid, otp: otp });
 
@@ -38,14 +38,15 @@ export class OtpServiceImpl implements OtpService {
     async verifyOtp(otp: string, email: string): Promise<UserProfileInterface> {
         try {
             const user = await this.dbService.fetchUser({ email: email });
-            if (user == null) throw new UserNotFound(Constants.kUserNotFound)
+            if (user == null) throw new UserNotFound()
             if (user.otp == null) throw Error(Constants.kServerError);
             if (user.otp == otp) {
 
-                const tokens = Helpers.generateFreshTokens(user.userName, user.email);
+                const tokens = Helpers.generateFreshTokens(user.uid, user.userName, user.email);
 
                 return await this.dbService.updateProfile({
                     uid: user.uid,
+                    verified: true,
                     accessToken: tokens[0],
                     refreshToken: tokens[1]
                 });

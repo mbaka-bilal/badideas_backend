@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+import bcrypt from 'bcrypt';
 
 import { DocumentData } from "firebase-admin/firestore";
 import { UserProfileInterface } from "../models/interface/user_profile_interface";
@@ -25,6 +26,7 @@ class Helpers {
             deletedAt: data.deletedAt,
             verified: data.verified,
             otp: data.otp,
+            password: data.password
         }
     }
 
@@ -37,18 +39,20 @@ class Helpers {
         return false;
     }
 
-    static generateFreshTokens(userName: string, email: string): string[] {
+    static generateFreshTokens(uid: string, userName: string, email: string): string[] {
         const accessTokenSecret: string = process.env.ACCESSTOKENSECRET!;
         const refreshTokenSecret: string = process.env.REFRESHTOKENSECRET!;
 
 
         const accessToken = jwt.sign({
+            "uid": uid,
             "username": userName,
             "email": email
         }, accessTokenSecret, {
-            "expiresIn": "1m"
+            "expiresIn": "30m"
         });
         const refreshToken = jwt.sign({
+            "uid": uid,
             "username": userName,
             "email": email
         }, refreshTokenSecret, {
@@ -70,6 +74,21 @@ class Helpers {
 
         return code;
 
+    }
+
+    static async hashPassword(paassword: string): Promise<string> {
+        return await bcrypt.hash(paassword, 10);
+    }
+
+    static async comparePassword(password: string, password2: string): Promise<boolean> {
+        return await bcrypt.compare(password, password2);
+    }
+
+    static cleanProfileData(profile: UserProfileInterface) {
+        profile.password = null;
+        profile.otp = null;
+
+        return profile;
     }
 
 }

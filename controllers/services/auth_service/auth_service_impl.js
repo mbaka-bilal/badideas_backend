@@ -14,15 +14,41 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthServiceImpl = void 0;
 const auth_service_1 = __importDefault(require("./auth_service"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const uuid_1 = require("uuid");
 const profile_exceptions_1 = require("../../../utils/exceptions/profile_exceptions");
 const helpers_1 = __importDefault(require("../../../utils/helpers"));
 const send_mail_1 = __importDefault(require("../mail_service/send_mail"));
+const constants_1 = require("../../../utils/constants");
 class AuthServiceImpl {
     constructor(dbService) {
         this.dbService = dbService;
         this.signup = this.signup.bind(this);
+        this.login = this.login.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
+        this.refreshToken = this.refreshToken.bind(this);
+    }
+    login(email, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.dbService.fetchUser({
+                    email: email,
+                });
+                if (user == null)
+                    throw new profile_exceptions_1.UserNotFound(constants_1.Constants.kUserNotFound);
+                if ((yield helpers_1.default.comparePassword(password, user.password)) == false) {
+                    throw new profile_exceptions_1.IncorrectPassword();
+                }
+                const accessToken = helpers_1.default.generateFreshTokens(user.uid, user.userName, user.email);
+                return yield this.dbService.updateProfile({
+                    uid: user.uid,
+                    accessToken: accessToken[0],
+                    refreshToken: accessToken[1],
+                });
+            }
+            catch (e) {
+                throw e;
+            }
+        });
     }
     signup(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -41,7 +67,7 @@ class AuthServiceImpl {
                     }
                     throw new profile_exceptions_1.UserExits("User with the same record exists");
                 }
-                const password = yield bcrypt_1.default.hash(data.password, 10);
+                const password = yield helpers_1.default.hashPassword(data.password);
                 const otp = helpers_1.default.generateOtp();
                 const userProfile = yield this.dbService.createUser({
                     email: data.email,
@@ -54,6 +80,74 @@ class AuthServiceImpl {
                 });
                 (0, send_mail_1.default)([data.email], "Otp", otp);
                 return userProfile;
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
+    resetPassword(otp, password, email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.dbService.fetchUser({
+                    email: email,
+                });
+                if (user == null)
+                    throw new profile_exceptions_1.UserNotFound();
+                if (user.otp !== otp)
+                    throw new Error("Incorrect otp");
+                const accessToken = helpers_1.default.generateFreshTokens(user.uid, user.userName, user.email);
+                return yield this.dbService.updateProfile({
+                    uid: user.uid,
+                    password: yield helpers_1.default.hashPassword(password),
+                    accessToken: accessToken[0],
+                    refreshToken: accessToken[1],
+                });
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
+    refreshToken(refreshToken) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.dbService.fetchUser({
+                    refreshToken: refreshToken,
+                });
+                if (user == null)
+                    throw new profile_exceptions_1.UserNotFound();
+                const accessToken = helpers_1.default.generateFreshTokens(user.uid, user.userName, user.email);
+                return yield this.dbService.updateProfile({
+                    uid: user.uid,
+                    accessToken: accessToken[0],
+                    refreshToken: accessToken[1],
+                });
+            }
+            catch (e) {
+                throw e;
+            }
+        });
+    }
+    changePassword(uid, oldPassword, newPassword) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = yield this.dbService.fetchUser({
+                    id: uid,
+                });
+                if (user == null)
+                    throw new profile_exceptions_1.UserNotFound();
+                if ((yield helpers_1.default.comparePassword(oldPassword, user.password)) == false)
+                    throw new profile_exceptions_1.IncorrectPassword();
+                if ((yield helpers_1.default.comparePassword(newPassword, user.password)) == true)
+                    throw new Error("New password cannot be same as old password");
+                const accessToken = helpers_1.default.generateFreshTokens(user.uid, user.userName, user.email);
+                return yield this.dbService.updateProfile({
+                    uid: user.uid,
+                    accessToken: accessToken[0],
+                    refreshToken: accessToken[1],
+                    password: yield helpers_1.default.hashPassword(newPassword),
+                });
             }
             catch (e) {
                 throw e;

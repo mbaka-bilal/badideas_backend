@@ -58,7 +58,7 @@ class UserRecordsDBServiceImpl {
             filters.push(firestore_1.Filter.where("refreshToken", "==", param.refreshToken));
         }
         if (param.id) {
-            filters.push(firestore_1.Filter.where("id", "==", param.id));
+            filters.push(firestore_1.Filter.where("uid", "==", param.id));
         }
         return filters;
     }
@@ -88,6 +88,10 @@ class UserRecordsDBServiceImpl {
                     json.accessToken = data.accessToken;
                 if (data.refreshToken != null)
                     json.refreshToken = data.refreshToken;
+                if (data.verified != null)
+                    json.verified = data.verified;
+                if (data.password != null)
+                    json.password = data.password;
                 const profile = yield this.db.collection(constants_1.Constants.kUsersCollection)
                     .doc(data.uid).update(json).then((e) => __awaiter(this, void 0, void 0, function* () {
                     const doc = (yield this.db.collection(constants_1.Constants.kUsersCollection).doc(data.uid).get());

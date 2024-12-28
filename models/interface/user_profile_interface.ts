@@ -8,7 +8,8 @@ interface UserProfileInterface {
     deletedAt?: string | null,
     updatedAt?: string | null,
     verified?: string | null
-    otp?: string | null
+    otp?: string | null,
+    password?: string | null
 }
 
 export { UserProfileInterface }

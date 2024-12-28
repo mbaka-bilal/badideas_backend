@@ -14,7 +14,7 @@ export class UserRecordsDBServiceImpl implements UserRecordsDBService {
         userName?: string | null,
         accessToken?: string | null,
         refreshToken?: string | null,
-        id?: string | null
+        id?: string | null,
     }): Promise<UserProfileInterface | null> {
         try {
             const filters = this.createFilters(param);
@@ -33,6 +33,7 @@ export class UserRecordsDBServiceImpl implements UserRecordsDBService {
             }
 
             const data = documents[0].data()!;
+
             return Helpers.documentDataToProfileData(data);
         } catch (e) {
             Helpers.printAndAddToLog(`${e}`);
@@ -62,7 +63,7 @@ export class UserRecordsDBServiceImpl implements UserRecordsDBService {
             filters.push(Filter.where("refreshToken", "==", param.refreshToken));
         }
         if (param.id) {
-            filters.push(Filter.where("id", "==", param.id));
+            filters.push(Filter.where("uid", "==", param.id));
         }
 
         return filters;
@@ -78,7 +79,16 @@ export class UserRecordsDBServiceImpl implements UserRecordsDBService {
         }
     }
 
-    async updateProfile(data: { uid: string, email?: string | null, otp?: string | null, userName?: string | null, accessToken?: string | null, refreshToken?: string | null }): Promise<UserProfileInterface> {
+    async updateProfile(data: {
+        uid: string,
+        verified?: boolean | null,
+        password: string | null,
+        email?: string | null,
+        otp?: string | null,
+        userName?: string | null,
+        accessToken?: string | null,
+        refreshToken?: string | null
+    }): Promise<UserProfileInterface> {
         try {
             const json: any = {};
             if (data.email != null) json.email = data.email;
@@ -86,6 +96,8 @@ export class UserRecordsDBServiceImpl implements UserRecordsDBService {
             if (data.otp != null) json.otp = data.otp;
             if (data.accessToken != null) json.accessToken = data.accessToken;
             if (data.refreshToken != null) json.refreshToken = data.refreshToken;
+            if (data.verified != null) json.verified = data.verified;
+            if (data.password != null) json.password = data.password;
 
             const profile = await this.db.collection(Constants.kUsersCollection)
                 .doc(data.uid).update(json).then(async (e) => {
