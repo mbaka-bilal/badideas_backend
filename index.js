@@ -32,15 +32,18 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const response_model_1 = __importDefault(require("./models/models/response_model"));
 const auth_route_1 = __importDefault(require("./routes/auth_route"));
 const helpers_1 = __importDefault(require("./utils/helpers"));
+const dare_route_1 = __importDefault(require("./routes/dare_route"));
 dotenv_1.default.config();
 const PORT = process.env.PORT || 5212;
+const baseUrl = "/api/v1";
 const app = (0, express_1.default)();
 app.use((0, express_1.urlencoded)({ "extended": true }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 //TODO add a logger to logs all incoming requests.
 //routes
-app.use("/api/v1", auth_route_1.default);
+app.use(baseUrl, auth_route_1.default);
+app.use(baseUrl, dare_route_1.default);
 app.all("/", (req, res) => {
     res.status(404).send({ "status": false, "message": "Unknown route" });
 });

@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const response_model_1 = __importDefault(require("../../../models/models/response_model"));
-const constants_1 = require("../../../utils/constants");
-const helpers_1 = __importDefault(require("../../../utils/helpers"));
-const exception_handler_1 = require("../../../utils/exceptions/exception_handler");
+const response_model_1 = __importDefault(require("../../models/models/response_model"));
+const constants_1 = require("../../utils/constants");
+const helpers_1 = __importDefault(require("../../utils/helpers"));
+const exception_handler_1 = require("../../utils/exceptions/exception_handler");
 class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -29,10 +29,10 @@ class AuthController {
     login(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (helpers_1.default.containsNullOrUndefined({
-                    "password": request.body.password,
-                    "email": request.body.email
-                })) {
+                if (helpers_1.default.containsNullOrUndefined([
+                    request.body.password,
+                    request.body.email
+                ])) {
                     response.status(400).send((0, response_model_1.default)({ "status": false, "message": constants_1.Constants.kMissingData }));
                     return;
                 }
@@ -65,11 +65,11 @@ class AuthController {
     resetPassword(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (helpers_1.default.containsNullOrUndefined({
-                    "password": request.body.password,
-                    "otp": request.body.otp,
-                    "email": request.body.email
-                })) {
+                if (helpers_1.default.containsNullOrUndefined([
+                    request.body.password,
+                    request.body.otp,
+                    request.body.email
+                ])) {
                     response.status(400).send((0, response_model_1.default)({ "status": false, "message": constants_1.Constants.kMissingData }));
                     return;
                 }
@@ -85,10 +85,10 @@ class AuthController {
     changePassword(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (helpers_1.default.containsNullOrUndefined({
-                    "oldPassword": request.body.oldPassword,
-                    "newPassword": request.body.newPassword,
-                })) {
+                if (helpers_1.default.containsNullOrUndefined([
+                    request.body.oldPassword,
+                    request.body.newPassword,
+                ])) {
                     response.status(400).send((0, response_model_1.default)({ "status": false, "message": constants_1.Constants.kMissingData }));
                     return;
                 }
@@ -105,9 +105,9 @@ class AuthController {
     refreshToken(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (helpers_1.default.containsNullOrUndefined({
-                    "refreshToken": request.body.refreshToken,
-                })) {
+                if (helpers_1.default.containsNullOrUndefined([
+                    request.body.refreshToken,
+                ])) {
                     response.status(400).send((0, response_model_1.default)({ "status": false, "message": constants_1.Constants.kMissingData }));
                     return;
                 }

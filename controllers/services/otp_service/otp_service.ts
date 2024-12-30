@@ -1,5 +1,5 @@
 import { UserProfileInterface } from "../../../models/interface/user_profile_interface";
-import { UserRecordsDBService } from "../db_service/user_records_db_service";
+import { UserRecordsDBService } from "../db_service/user_records/user_records_db_service";
 
 export abstract class OtpService {
     dbService: UserRecordsDBService;

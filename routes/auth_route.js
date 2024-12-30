@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const auth_controller_1 = __importDefault(require("../controllers/controllers/auth_controller/auth_controller"));
-const user_records_db_service_impl_1 = require("../controllers/services/db_service/user_records_db_service_impl");
+const auth_controller_1 = __importDefault(require("../controllers/controllers/auth_controller"));
+const user_records_db_service_impl_1 = require("../controllers/services/db_service/user_records/user_records_db_service_impl");
 const auth_service_impl_1 = require("../controllers/services/auth_service/auth_service_impl");
-const otp_controller_1 = require("../controllers/controllers/otp_controller/otp_controller");
+const otp_controller_1 = require("../controllers/controllers/otp_controller");
 const otp_service_impl_1 = require("../controllers/services/otp_service/otp_service_impl");
 const verify_token_1 = require("../middleware/verify_token");
 const authRoute = express_1.default.Router();

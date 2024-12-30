@@ -51,14 +51,14 @@ class Helpers {
             "username": userName,
             "email": email
         }, accessTokenSecret, {
-            "expiresIn": "30m"
+            "expiresIn": "3 days"
         });
         const refreshToken = jsonwebtoken_1.default.sign({
             "uid": uid,
             "username": userName,
             "email": email
         }, refreshTokenSecret, {
-            "expiresIn": "2 days"
+            "expiresIn": "7 days"
         });
         return [accessToken, refreshToken];
     }
@@ -85,6 +85,19 @@ class Helpers {
         profile.password = null;
         profile.otp = null;
         return profile;
+    }
+    static cleanDareData(dare) {
+        return {
+            id: dare.id,
+            title: dare.title,
+            description: dare.description,
+            index: dare.index,
+            difficulty: dare.difficulty,
+            deleted: dare.deleted,
+            createdAt: dare.createdAt,
+            updatedAt: dare.updatedAt,
+            deletedAt: dare.deletedAt
+        };
     }
 }
 exports.default = Helpers;

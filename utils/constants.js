@@ -5,6 +5,7 @@ class Constants {
 }
 exports.Constants = Constants;
 Constants.kUsersCollection = "users";
+Constants.kDaresCollection = "dares";
 Constants.kServerError = "Server error has occured";
 Constants.kMissingData = "missing data";
 Constants.kUserNotFound = "User not found";

@@ -1,7 +1,7 @@
 import { SignupInterface } from '../../../models/interface/auth_interface';
 import AuthService from './auth_service';
 import { UserProfileInterface } from '../../../models/interface/user_profile_interface';
-import { UserRecordsDBService } from '../db_service/user_records_db_service';
+import { UserRecordsDBService } from '../db_service/user_records/user_records_db_service';
 import { v4 } from 'uuid';
 import { IncorrectPassword, UserExits, UserNotFound } from '../../../utils/exceptions/profile_exceptions';
 import Helpers from '../../../utils/helpers';

@@ -4,7 +4,7 @@ import { UserProfileInterface } from "../../../models/interface/user_profile_int
 import { Constants } from "../../../utils/constants";
 import { UserNotFound } from "../../../utils/exceptions/profile_exceptions";
 import Helpers from "../../../utils/helpers";
-import { UserRecordsDBService } from "../db_service/user_records_db_service";
+import { UserRecordsDBService } from "../db_service/user_records/user_records_db_service";
 import sendMail from "../mail_service/send_mail";
 import { OtpService } from "./otp_service";
 

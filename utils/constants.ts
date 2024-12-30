@@ -1,5 +1,7 @@
 export class Constants {
     static kUsersCollection = "users";
+    static kDaresCollection = "dares";
+
     static kServerError = "Server error has occured";
     static kMissingData = "missing data";
     static kUserNotFound = "User not found";

@@ -1,4 +1,4 @@
-import { UserProfileInterface } from "../../../models/interface/user_profile_interface";
+import { UserProfileInterface } from "../../../../models/interface/user_profile_interface";
 
 export abstract class UserRecordsDBService {
     abstract fetchUser(param: {

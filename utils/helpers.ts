@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 
 import { DocumentData } from "firebase-admin/firestore";
 import { UserProfileInterface } from "../models/interface/user_profile_interface";
+import DareInterface from '../models/interface/dare_interface';
 
 class Helpers {
     static printAndAddToLog(errorMessage: string, requestData?: object | null): void {
@@ -30,7 +31,7 @@ class Helpers {
         }
     }
 
-    static containsNullOrUndefined(obj: { [key: string]: any }): boolean {
+    static containsNullOrUndefined(obj: any[]): boolean {
         for (const key in obj) {
             if (obj[key] === null || obj[key] === undefined) {
                 return true;
@@ -49,14 +50,14 @@ class Helpers {
             "username": userName,
             "email": email
         }, accessTokenSecret, {
-            "expiresIn": "30m"
+            "expiresIn": "3 days"
         });
         const refreshToken = jwt.sign({
             "uid": uid,
             "username": userName,
             "email": email
         }, refreshTokenSecret, {
-            "expiresIn": "2 days"
+            "expiresIn": "7 days"
         });
 
         return [accessToken, refreshToken];
@@ -89,6 +90,20 @@ class Helpers {
         profile.otp = null;
 
         return profile;
+    }
+
+    static cleanDareData(dare: DareInterface) {
+        return {
+            id: dare.id,
+            title: dare.title,
+            description: dare.description,
+            index: dare.index,
+            difficulty: dare.difficulty,
+            deleted: dare.deleted,
+            createdAt: dare.createdAt,
+            updatedAt: dare.updatedAt,
+            deletedAt: dare.deletedAt
+        };
     }
 
 }

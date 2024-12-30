@@ -23,7 +23,7 @@ class VerifyToken {
     verifyAccessToken(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log("request.headers", request.headers.authorization);
+                // console.log("request.headers", request.headers.authorization);
                 const accessToken = request.headers.authorization.split(" ")[1];
                 if (!accessToken) {
                     response.status(401).send({ "status": false, "message": constants_1.Constants.kUnauthorized });
@@ -39,7 +39,6 @@ class VerifyToken {
                 next();
             }
             catch (e) {
-                console.log("decoded token", e);
                 if (e instanceof jsonwebtoken_1.default.TokenExpiredError) {
                     response.status(419).send({ "status": false, "message": constants_1.Constants.kTokenExpired });
                     return;

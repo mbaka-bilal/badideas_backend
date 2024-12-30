@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OtpController = void 0;
-const response_model_1 = __importDefault(require("../../../models/models/response_model"));
-const constants_1 = require("../../../utils/constants");
-const helpers_1 = __importDefault(require("../../../utils/helpers"));
-const exception_handler_1 = require("../../../utils/exceptions/exception_handler");
+const response_model_1 = __importDefault(require("../../models/models/response_model"));
+const constants_1 = require("../../utils/constants");
+const helpers_1 = __importDefault(require("../../utils/helpers"));
+const exception_handler_1 = require("../../utils/exceptions/exception_handler");
 class OtpController {
     constructor(otpService) {
         this.otpService = otpService;
@@ -27,9 +27,9 @@ class OtpController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = request.body;
-                if (helpers_1.default.containsNullOrUndefined({
-                    "email": body.email,
-                })) {
+                if (helpers_1.default.containsNullOrUndefined([
+                    body.email,
+                ])) {
                     response.status(400).send((0, response_model_1.default)({ "status": false, "message": constants_1.Constants.kMissingData }));
                     return;
                 }
@@ -46,10 +46,10 @@ class OtpController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = request.body;
-                if (helpers_1.default.containsNullOrUndefined({
-                    "email": body.email,
-                    "otp": body.otp
-                })) {
+                if (helpers_1.default.containsNullOrUndefined([
+                    body.email,
+                    body.otp
+                ])) {
                     response.status(400).send((0, response_model_1.default)({ "status": false, "message": constants_1.Constants.kMissingData }));
                     return;
                 }

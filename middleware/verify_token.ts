@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 import { Constants } from "../utils/constants";
-import { UserRecordsDBService } from '../controllers/services/db_service/user_records_db_service';
+import { UserRecordsDBService } from '../controllers/services/db_service/user_records/user_records_db_service';
 
 
 export class VerifyToken {
@@ -17,10 +17,8 @@ export class VerifyToken {
 
     async verifyAccessToken(request: Request, response: Response, next: NextFunction): Promise<void> {
 
-
-
         try {
-            console.log("request.headers", request.headers.authorization);
+            // console.log("request.headers", request.headers.authorization);
 
 
             const accessToken: string = request.headers.authorization!.split(" ")[1];

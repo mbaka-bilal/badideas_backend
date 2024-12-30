@@ -4,9 +4,11 @@ import dotenv from "dotenv";
 import responseModel from "./models/models/response_model";
 import authRoute from "./routes/auth_route";
 import Helpers from "./utils/helpers";
+import dareRoute from "./routes/dare_route";
 
 dotenv.config();
 const PORT = process.env.PORT || 5212;
+const baseUrl = "/api/v1";
 
 const app = express();
 
@@ -18,8 +20,8 @@ app.use(cookieParser());
 //TODO add a logger to logs all incoming requests.
 
 //routes
-app.use("/api/v1", authRoute);
-
+app.use(baseUrl, authRoute);
+app.use(baseUrl, dareRoute);
 app.all("/", (req, res) => {
     res.status(404).send({ "status": false, "message": "Unknown route" });
 });

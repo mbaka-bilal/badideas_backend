@@ -1,3 +1,5 @@
+
+//TODO add a super admin user
 interface UserProfileInterface {
     email: string,
     uid: string,

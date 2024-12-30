@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
 
-import { OtpService } from "../../services/otp_service/otp_service";
-import responseModel from '../../../models/models/response_model';
-import { Constants } from '../../../utils/constants';
-import Helpers from '../../../utils/helpers';
-import { handleError } from '../../../utils/exceptions/exception_handler';
+import { OtpService } from "../services/otp_service/otp_service";
+import responseModel from '../../models/models/response_model';
+import { Constants } from '../../utils/constants';
+import Helpers from '../../utils/helpers';
+import { handleError } from '../../utils/exceptions/exception_handler';
 
 export class OtpController {
     otpService: OtpService;
@@ -21,9 +21,9 @@ export class OtpController {
         try {
             const body = request.body;
 
-            if (Helpers.containsNullOrUndefined({
-                "email": body.email,
-            })) {
+            if (Helpers.containsNullOrUndefined([
+                body.email,
+            ])) {
                 response.status(400).send(responseModel({ "status": false, "message": Constants.kMissingData }));
                 return;
             }
@@ -41,10 +41,10 @@ export class OtpController {
             const body = request.body;
 
 
-            if (Helpers.containsNullOrUndefined({
-                "email": body.email,
-                "otp": body.otp
-            })) {
+            if (Helpers.containsNullOrUndefined([
+                body.email,
+                body.otp
+            ])) {
                 response.status(400).send(responseModel({ "status": false, "message": Constants.kMissingData }));
                 return;
             }

@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { SignupInterface } from "../../../models/interface/auth_interface";
-import responseModel from '../../../models/models/response_model';
-import AuthService from '../../services/auth_service/auth_service_impl';
-import { Constants } from '../../../utils/constants';
-import Helpers from '../../../utils/helpers';
-import { handleError } from '../../../utils/exceptions/exception_handler';
+import { SignupInterface } from "../../models/interface/auth_interface";
+import responseModel from '../../models/models/response_model';
+import AuthService from '../services/auth_service/auth_service_impl';
+import { Constants } from '../../utils/constants';
+import Helpers from '../../utils/helpers';
+import { handleError } from '../../utils/exceptions/exception_handler';
 
 class AuthController {
     authService: AuthService;
@@ -22,10 +22,10 @@ class AuthController {
 
     async login(request: Request, response: Response): Promise<void> {
         try {
-            if (Helpers.containsNullOrUndefined({
-                "password": request.body.password,
-                "email": request.body.email
-            })) {
+            if (Helpers.containsNullOrUndefined([
+                request.body.password,
+                request.body.email
+            ])) {
                 response.status(400).send(responseModel({ "status": false, "message": Constants.kMissingData }));
                 return;
             }
@@ -62,11 +62,11 @@ class AuthController {
 
     async resetPassword(request: Request, response: Response): Promise<void> {
         try {
-            if (Helpers.containsNullOrUndefined({
-                "password": request.body.password,
-                "otp": request.body.otp,
-                "email": request.body.email
-            })) {
+            if (Helpers.containsNullOrUndefined([
+                request.body.password,
+                request.body.otp,
+                request.body.email
+            ])) {
                 response.status(400).send(responseModel({ "status": false, "message": Constants.kMissingData }));
                 return;
             }
@@ -84,10 +84,10 @@ class AuthController {
 
     async changePassword(request: Request, response: Response): Promise<void> {
         try {
-            if (Helpers.containsNullOrUndefined({
-                "oldPassword": request.body.oldPassword,
-                "newPassword": request.body.newPassword,
-            })) {
+            if (Helpers.containsNullOrUndefined([
+                request.body.oldPassword,
+                request.body.newPassword,
+            ])) {
                 response.status(400).send(responseModel({ "status": false, "message": Constants.kMissingData }));
                 return;
             }
@@ -110,9 +110,9 @@ class AuthController {
 
     async refreshToken(request: Request, response: Response): Promise<void> {
         try {
-            if (Helpers.containsNullOrUndefined({
-                "refreshToken": request.body.refreshToken,
-            })) {
+            if (Helpers.containsNullOrUndefined([
+                request.body.refreshToken,
+            ])) {
                 response.status(400).send(responseModel({ "status": false, "message": Constants.kMissingData }));
                 return;
             }

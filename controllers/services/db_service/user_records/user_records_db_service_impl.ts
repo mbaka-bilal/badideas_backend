@@ -1,10 +1,10 @@
 import { Filter, getFirestore } from 'firebase-admin/firestore';
-import { UserProfileInterface } from "../../../models/interface/user_profile_interface";
+import { UserProfileInterface } from "../../../../models/interface/user_profile_interface";
 import { UserRecordsDBService } from "./user_records_db_service";
-import { app } from '../../../config/firebase';
-import { Constants } from '../../../utils/constants';
-import printAndAddToLog from '../../../utils/helpers';
-import Helpers from '../../../utils/helpers';
+import { app } from '../../../../config/firebase';
+import { Constants } from '../../../../utils/constants';
+import printAndAddToLog from '../../../../utils/helpers';
+import Helpers from '../../../../utils/helpers';
 
 export class UserRecordsDBServiceImpl implements UserRecordsDBService {
     private db = getFirestore(app);

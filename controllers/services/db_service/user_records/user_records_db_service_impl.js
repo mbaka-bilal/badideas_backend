@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRecordsDBServiceImpl = void 0;
 const firestore_1 = require("firebase-admin/firestore");
-const firebase_1 = require("../../../config/firebase");
-const constants_1 = require("../../../utils/constants");
-const helpers_1 = __importDefault(require("../../../utils/helpers"));
+const firebase_1 = require("../../../../config/firebase");
+const constants_1 = require("../../../../utils/constants");
+const helpers_1 = __importDefault(require("../../../../utils/helpers"));
 class UserRecordsDBServiceImpl {
     constructor() {
         this.db = (0, firestore_1.getFirestore)(firebase_1.app);
